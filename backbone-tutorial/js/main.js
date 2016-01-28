@@ -23,13 +23,18 @@ var Person = Backbone.Model.extend({
 });
 
 var PersonView = Backbone.View.extend({
+	tagName:'li',
+	
+	template: _.template('<%= name %> ( <%= age %> ) - <%= job %> '),
+
 	initialize: function(){
-		console.log('Экземпляр класса создан! Ура!')
+		this.render();
 	},
 
-	tagName:'li',
 	render: function(){
-		this.$el.html(this.model.get('name') + '(' + this.model.get('age') + ') -' +this.model.get('job') );
+		//this.$el.html(this.model.get('name') + '(' + this.model.get('age') + ') -' +this.model.get('job'));
+		this.$el.html(this.template(this.model.toJSON() ) );
+
 	}
 });
 
