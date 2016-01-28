@@ -1,3 +1,4 @@
+//Модель человека
 var Person = Backbone.Model.extend({
 	defaults: {
 		name: 'Denis',
@@ -22,21 +23,39 @@ var Person = Backbone.Model.extend({
 	}
 });
 
+
+//Список людей
+var PeopleCollection = Backbone.Collection.extend({
+	model: Person
+});
+
+//Вид списка людей
+var PeopleView = Backbone.View.extend({
+	tagName: 'ul',
+
+	initialize: function(){
+		console.log(this.collection);
+	}
+});
+
+//Вид  одного человека
 var PersonView = Backbone.View.extend({
 	tagName:'li',
 	
-	template: _.template('<%= name %> ( <%= age %> ) - <%= job %> '),
+	//1способ подключения шаблона удаленно   template: _.template( $('#person-id').html() ),
+
+	template: '#person-id',
 
 	initialize: function(){
 		this.render();
 	},
 
 	render: function(){
-		//this.$el.html(this.model.get('name') + '(' + this.model.get('age') + ') -' +this.model.get('job'));
-		this.$el.html(this.template(this.model.toJSON() ) );
+		//ЗАМЕЧАТЕЛЬНЫЙ ШАБЛОН 
+		var template = _.template( $(this.template).html() );
+		this.$el.html( template(this.model.toJSON() ) );
 
 	}
 });
 
-var person = new Person;
-var personView = new PersonView({model: person});
+var peopleView = new PeopleView({collection: PeopleCollection});
