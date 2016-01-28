@@ -23,6 +23,7 @@ var Person = Backbone.Model.extend({
 	}
 });
 
+var person = new Person();
 
 //Список людей
 var PeopleCollection = Backbone.Collection.extend({
@@ -34,7 +35,19 @@ var PeopleView = Backbone.View.extend({
 	tagName: 'ul',
 
 	initialize: function(){
-		console.log(this.collection);
+		
+	},
+
+	render: function(){
+		//1 Пройтись по всему списку и срендерить каждый PersonView
+		this.collection.each(function(person){
+			var personView = new PersonView({model: person});
+
+			this.$el.append(personView.render().el);
+		}, this);
+
+		return this;
+		//2 Вставить главный тег ul (this.$el)
 	}
 });
 
@@ -59,3 +72,5 @@ var PersonView = Backbone.View.extend({
 });
 
 var peopleView = new PeopleView({collection: PeopleCollection});
+
+$(document.body).append(peopleView.render().el)
