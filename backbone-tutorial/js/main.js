@@ -21,3 +21,17 @@ var Person = Backbone.Model.extend({
 		return this.get('name') + ' is walking!';
 	}
 });
+
+var PersonView = Backbone.View.extend({
+	initialize: function(){
+		console.log('Экземпляр класса создан! Ура!')
+	},
+
+	tagName:'li',
+	render: function(){
+		this.$el.html(this.model.get('name') + '(' + this.model.get('age') + ') -' +this.model.get('job') );
+	}
+});
+
+var person = new Person;
+var personView = new PersonView({model: person});
