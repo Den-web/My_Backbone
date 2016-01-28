@@ -1,13 +1,23 @@
-var Person = function(config){
-	this.name = config.name;
-	this.age = config.age;
-	this.job = config.job;
-};
+var Person = Backbone.Model.extend({
+	defaults: {
+		name: 'Denis',
+		age: 25,
+		job: 'web developer'
+	},
 
+	validate: function( attrs ){
+		console.log(attrs);
 
-Person.prototype.walk = function(){
-	return this.name + ' is walking';
-}
+		if (attrs.age <= 0){
+			return 'Возраст должен быть положительный!'; 
+		}
 
+		if(! attrs.name){
+			return ' Введите Имя!';
+		}
+	},
 
-var nick = new Person({name: 'Nick', age: '24', job: 'Front-end-developer'});
+	walk: function(){
+		return this.get('name') + ' is walking!';
+	}
+});
