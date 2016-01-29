@@ -1,3 +1,8 @@
+//Хелпер шаблона
+var template = function(id) {
+	return _.template( $('#' + id).html() );
+};
+
 //Модель человека
 var Person = Backbone.Model.extend({
 	defaults: {
@@ -39,15 +44,15 @@ var PeopleView = Backbone.View.extend({
 	},
 
 	render: function(){
-		//1 Пройтись по всему списку и срендерить каждый PersonView
-		this.collection.each(function(person){
+		
+		this.collection.each(function(person) {
 			var personView = new PersonView({model: person});
 
 			this.$el.append(personView.render().el);
 		}, this);
 
 		return this;
-		//2 Вставить главный тег ul (this.$el)
+		
 	}
 });
 
@@ -57,7 +62,7 @@ var PersonView = Backbone.View.extend({
 	
 	//1способ подключения шаблона удаленно   template: _.template( $('#person-id').html() ),
 
-	template: '#person-id',
+	template:  template('person-id'),
 
 	initialize: function(){
 		this.render();
@@ -65,11 +70,33 @@ var PersonView = Backbone.View.extend({
 
 	render: function(){
 		//ЗАМЕЧАТЕЛЬНЫЙ ШАБЛОН 
-		var template = _.template( $(this.template).html() );
-		this.$el.html( template(this.model.toJSON() ) );
+		this.$el.html( this.template( this.model.toJSON() ) );
 
+		return this;
 	}
 });
+
+
+var peopleCollection = new PeopleCollection([
+	{
+		name: 'Петр',
+		age: 20,
+		job: 'Таксист'  
+	},
+	{
+		name: 'Вася',
+		age: 28,
+		job: 'Пожаррюга'  
+	},
+	{
+		name: 'Вова',
+		age: 29,
+		job: 'Лось'  
+	},
+]);
+
+
+
 
 var peopleView = new PeopleView({collection: PeopleCollection});
 
