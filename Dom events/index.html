@@ -7,10 +7,11 @@
 
 </head>
 <body>
-	<p>Привет мир!</p>
+	<h1>Список задач</h1>
+	<div class="tasks"></div>
 
-	<script type="template" id="person-id">
-		<strong><%= name %></strong> ( <%= age %> ) - <%= job %> 
+	<script type="text/template" id="taskTemplate">
+		<span><%= title %></span><button class="edit">Edit</button><button class="delete">Delete</button> 
 	</script>
 
 	<script src="js/jquery-1.12.0.js"></script>
