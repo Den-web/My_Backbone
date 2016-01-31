@@ -80,7 +80,7 @@ $(function() {
 	
 
 	App.Views.AddTask = Backbone.View.extend({
-		el: '#addTest',
+		el: '#addTask',
 
 		events:{
 			'submit' : 'submit'
@@ -88,6 +88,7 @@ $(function() {
 
 		submit: function(e){
 			e.preventDefault();
+
 			var newTaskTitle = $(e.currentTarget).find('input[type=text]').val();
 			
 			var newTask = new App.Models.Task({ title: newTaskTitle});
@@ -115,6 +116,6 @@ $(function() {
 	
 	$('.tasks').html(tasksView.render().el);
 
-	var addTaskView = new App.Views.AddTask( collection: tasksCollection );
+	var addTaskView = new App.Views.AddTask({ collection: tasksCollection });
 
 });
