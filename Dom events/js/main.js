@@ -56,6 +56,11 @@ $(function() {
 
 	App.Views.Tasks = Backbone.View.extend({
 		tagName: 'ul',
+
+		initialize: function(){
+			this.collection.on('add', this.addOne, this);
+		},
+
 		render: function() {
 			this.collection.each(this.addOne, this);
 			return this;
@@ -66,26 +71,43 @@ $(function() {
 			//добавить его в дочерний елемент
 			this.$el.append(taskView.render().el);
 		}
-	})
+	});
 	/*var task = new App.Models.Task({
 		title: 'Сходить в магазин',
 		priority: 4
 
 	});*/
+	
+
+	App.Views.AddTask = Backbone.View.extend({
+		el: '#addTest',
+
+		events:{
+			'submit' : 'submit'
+		},
+
+		submit: function(e){
+			e.preventDefault();
+			var newTaskTitle = $(e.currentTarget).find('input[type=text]').val();
+			
+			var newTask = new App.Models.Task({ title: newTaskTitle});
+			this.collection.add(newTask);
+		}
+	});
 
 	window.tasksCollection = new App.Collections.Task([
-	{
-		title: 'Сходить в магазин',
-		priority: 4
-	},
-	{
-		title: 'Получить почту',
-		priority: 3
-	},
-	{
-		title: 'Сходить на работу',
-		priority: 5
-	},
+		{
+			title: 'Сходить в магазин',
+			priority: 4
+		},
+		{
+			title: 'Получить почту',
+			priority: 3
+		},
+		{
+			title: 'Сходить на работу',
+			priority: 5
+		}
 	]);
 
 	var tasksView = new App.Views.Tasks({ collection: tasksCollection});
@@ -93,6 +115,6 @@ $(function() {
 	
 	$('.tasks').html(tasksView.render().el);
 
-
+	var addTaskView = new App.Views.AddTask( collection: tasksCollection );
 
 });
