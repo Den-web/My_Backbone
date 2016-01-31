@@ -12,8 +12,18 @@ $(function() {
 		return _.template( $('#' + id).html() );
 	};
 
-	App.Models.Task = Backbone.Model.extend({});
+	App.Models.Task = Backbone.Model.extend({
+		validate: function(attr){
+			if( ! $.trim(attrs.title ) ){
+			return 'Bvz задачи олжно быть валидным!';
+
+			}
+		}
+	});
 	App.Views.Task = Backbone.View.extend({
+		initialize: function(){
+			this.model.on('change', this.render, this);
+		},
 		tagName: 'li',
 		template: template('taskTemplate'),
 		render: function () {
@@ -23,10 +33,12 @@ $(function() {
 		},
 		events:{
 			'click .edit': 'editTask'
-		}
+		},
 		editTask: function(){
-			prompt('Как переименуем задачу?', this.model.get('title'));
+			var newTaskTitle = prompt('Как переименуем задачу?', this.model.get('title'));
+			if(!newTaskTitle) return;
 			this.model.set('title', newTaskTitle);
+
 		}
 	});
 
