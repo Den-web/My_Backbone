@@ -15,16 +15,26 @@
 
 	App.Router = Backbone.Router.extend({
 		routes: {
-			''     : 'index',
-			'read' : 'read'
+			''     				: 'index',
+			'page/:id/*simbo'   : 'page',
+			'search/:query'		: 'search',
+			'*other'			: 'default'
 		},
 
 		index : function(){
 			console.log('Dctv привет от индексного роута!');
 		},
 
-		read : function(){
-			console.log('Это роут Read ');
+		page: function(id, simbo){
+			console.log('Это роут Page' + simbo + ' !');
+		},
+
+		search: function(query){
+
+		},
+
+		default: function(other){
+			alert('вы уверены что там где надо?' + other);
 		}
 	});
 
