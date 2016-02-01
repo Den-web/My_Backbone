@@ -7,26 +7,34 @@
 		Router: {}
 	};
 
+	var vent = _.extend({}, Backbone.Events);
+
 	
-	// шаблон
-	window.template = function(id) {
-		return _.template( $('#' + id).html() );
-	};
+	App.Views.SpecialTasks = Backbone.View.extend({
+		initialize: function(){
+			vent.on('specialTasks:show', this.show, this);
+		},
+		show: function(id){
+			var specialTask = this.collection.get('id');
+			var specialTaskView = new App.Views.SpecialTask({ model: specialTask});
+			$('body').append(specialTasksView.render().el);
+		}
+	})
 
 	App.Router = Backbone.Router.extend({
 		routes: {
-			''     				: 'index',
-			'page/:id/*simbo'   : 'page',
+			''     				: 'start',
+			'specialTasks/:id'  : 'showSpecialTasks',
 			'search/:query'		: 'search',
 			'*other'			: 'default'
 		},
 
-		index : function(){
-			console.log('Dctv привет от индексного роута!');
+		start: function(){
+			console.log('Стартовая страница!');
 		},
 
-		page: function(id, simbo){
-			console.log('Это роут Page' + simbo + ' !');
+		showSpecialTasks: function(id){
+			vent.trigger('specialTasks:show', id);
 		},
 
 		search: function(query){
@@ -37,6 +45,8 @@
 			alert('вы уверены что там где надо?' + other);
 		}
 	});
+
+	new App.Views.SpecialTasks({collection: someCollection});
 
 	new App.Router();
 	Backbone.history.start();
